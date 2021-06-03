@@ -41,25 +41,6 @@ bool imprimirOpcoes(
     return true;
 }
 
-void imprimirOpcoesERepetir(
-    RedeSocial* redeSocial,
-    string textoInicial,
-    string textoFinal,
-    int quantidadeDeOpcoes,
-    string* opcoes,
-    FuncaoDeRede* funcoes,
-    bool temOpcaoZero = false
-) {
-    while (imprimirOpcoes(redeSocial, 
-        textoInicial,
-        textoFinal,
-        quantidadeDeOpcoes,
-        opcoes,
-        funcoes,
-        temOpcaoZero)) {
-    }
-}
-
 bool simOuNao(string texto) {
     string escolha;
     cout << texto;
@@ -250,15 +231,19 @@ void logar(RedeSocial* redeSocial) {
 }
 
 void interfaceGrafica(RedeSocial* redeSocial) {
-    imprimirOpcoesERepetir(redeSocial,
+    while (imprimirOpcoes(redeSocial,
         "Escolha uma opcao",
         "",
         4,
         (string[]){
-            "Cadastrar Pessoa", "Cadastrar Pagina", "Logar", "Terminar" },
-        (FuncaoDeRede[]){
-            cadastroPessoa, cadastroPagina, logar, cadastroPessoa },
-        true);
+            "Cadastrar Pessoa", 
+            "Cadastrar Pagina", 
+            "Logar", 
+            "Terminar" 
+        },
+        (FuncaoDeRede[]){ cadastroPessoa, cadastroPagina, logar },
+        true)
+    ) {}
 }
 
 int main() {
