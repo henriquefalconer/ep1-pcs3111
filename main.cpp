@@ -164,9 +164,8 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
     auto listaDeAdicionarContato = [perfil](RedeSocial* redeSocial) {
         bool foiPossivelAdicionar;
 
-        auto adicionarContato = [&, perfil](Perfil* novoContato) -> FuncaoDeRede {
-            return [=, &foiPossivelAdicionar](
-                       RedeSocial* redeSocial) {
+        auto adicionarContato = [&, perfil](Perfil* novoContato) {
+            return [=, &foiPossivelAdicionar](RedeSocial* redeSocial) {
                 foiPossivelAdicionar = perfil->adicionarContato(novoContato);
             };
         };
@@ -197,14 +196,17 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
                 "Escolha uma opcao:",
                 "",
                 4,
-                (string[]){ "Fazer postagem",
+                (string[]){ 
+                    "Fazer postagem",
                     "Ver postagens dos contatos",
                     "Adicionar contato",
-                    "Deslogar" },
-                (FuncaoDeRede[]){ fazerPostagem,
-                    verPostagens,
-                    listaDeAdicionarContato,
-                    cadastroPessoa },
+                    "Deslogar" 
+                },
+                (FuncaoDeRede[]){
+                    fazerPostagem, 
+                    verPostagens, 
+                    listaDeAdicionarContato 
+                },
                 true);
         } while (repetir);
     };
