@@ -12,13 +12,13 @@ using FuncaoDeRede = function<void(RedeSocial*)>;
 using CriadorDeFuncaoDeRede = function<FuncaoDeRede(Perfil*)>;
 
 bool imprimirOpcoes(
+    RedeSocial* redeSocial,
     string textoInicial,
     string textoFinal,
     int quantidadeDeOpcoes,
     string* opcoes,
     FuncaoDeRede* funcoes,
-    bool temOpcaoZero,
-    RedeSocial* redeSocial
+    bool temOpcaoZero = false
 ) {
     int escolha;
 
@@ -36,27 +36,27 @@ bool imprimirOpcoes(
 
     int posicao = escolha - 1;
 
-    if (funcoes[posicao]) funcoes[posicao](redeSocial);
+    funcoes[posicao](redeSocial);
 
     return true;
 }
 
 void imprimirOpcoesERepetir(
+    RedeSocial* redeSocial,
     string textoInicial,
     string textoFinal,
     int quantidadeDeOpcoes,
     string* opcoes,
     FuncaoDeRede* funcoes,
-    bool temOpcaoZero,
-    RedeSocial* redeSocial
+    bool temOpcaoZero = false
 ) {
-    while (imprimirOpcoes(textoInicial,
+    while (imprimirOpcoes(redeSocial, 
+        textoInicial,
         textoFinal,
         quantidadeDeOpcoes,
         opcoes,
         funcoes,
-        temOpcaoZero,
-        redeSocial)) {
+        temOpcaoZero)) {
     }
 }
 
@@ -116,13 +116,12 @@ bool mostrarOpcoesUsuario(
 
     criarOpcoesUsuario(redeSocial, &opcoesUsuario, &funcoes, criarFuncao);
 
-    bool opcaoEscolhida = imprimirOpcoes(textoInicial,
+    bool opcaoEscolhida = imprimirOpcoes(redeSocial,
+        textoInicial,
         "Digite o numero ou 0 para cancelar: ",
         redeSocial->getQuantidadeDePerfis(),
         opcoesUsuario,
-        funcoes,
-        false,
-        redeSocial);
+        funcoes);
 
     delete[] opcoesUsuario;
     delete[] funcoes;
@@ -229,7 +228,8 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
 
             cout << endl << "---" << endl;
 
-            repetir = imprimirOpcoes("Escolha uma opcao:",
+            repetir = imprimirOpcoes(redeSocial,
+                "Escolha uma opcao:",
                 "",
                 4,
                 (string[]){ "Fazer postagem",
@@ -240,8 +240,7 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
                     verPostagens,
                     listaDeAdicionarContato,
                     cadastroPessoa },
-                true,
-                redeSocial);
+                true);
         } while (repetir);
     };
 }
@@ -251,15 +250,15 @@ void logar(RedeSocial* redeSocial) {
 }
 
 void interfaceGrafica(RedeSocial* redeSocial) {
-    imprimirOpcoesERepetir("Escolha uma opcao",
+    imprimirOpcoesERepetir(redeSocial,
+        "Escolha uma opcao",
         "",
         4,
         (string[]){
             "Cadastrar Pessoa", "Cadastrar Pagina", "Logar", "Terminar" },
         (FuncaoDeRede[]){
             cadastroPessoa, cadastroPagina, logar, cadastroPessoa },
-        true,
-        redeSocial);
+        true);
 }
 
 int main() {
