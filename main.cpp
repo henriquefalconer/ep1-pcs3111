@@ -116,16 +116,14 @@ void cadastroPagina(RedeSocial* redeSocial) {
     cin >> nome;
 
     auto criarFuncao = [&nome](Perfil* perfil) -> FuncaoDeRede {
-        if (PessoaVerificada* pessoaVerificada =
-                dynamic_cast<PessoaVerificada*>(perfil))
-            return [&nome, pessoaVerificada](RedeSocial* redeSocial) {
+        return [&nome, perfil](RedeSocial* redeSocial) {
+            if (PessoaVerificada* pessoaVerificada = dynamic_cast<PessoaVerificada*>(perfil))
                 redeSocial->adicionar(new Pagina(nome, pessoaVerificada));
-            };
 
-        return [](RedeSocial* redeSocial) {
-            cout << "Somente pessoas verificadas podem ser proprietarias"
-                 << endl
-                 << endl;
+            else
+                cout << "Somente pessoas verificadas podem ser proprietarias"
+                     << endl
+                     << endl;
         };
     };
 
