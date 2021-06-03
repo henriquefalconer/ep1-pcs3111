@@ -65,23 +65,18 @@ void cadastroPessoa(RedeSocial* redeSocial) {
     cout << endl;
 }
 
-void criarOpcoesUsuario(RedeSocial* redeSocial,
+void criarOpcoesUsuario(
+    RedeSocial* redeSocial,
     string** opcoesUsuario,
     FuncaoDeRede** funcoes,
-    CriadorDeFuncaoDeRede criarFuncao) {
-    int quantidadeDePerfis = redeSocial->getQuantidadeDePerfis();
-    int quantidadeDePerfilNaoExcluidos = quantidadeDePerfis;
-
-    *opcoesUsuario = new string[quantidadeDePerfilNaoExcluidos];
-    *funcoes = new FuncaoDeRede[quantidadeDePerfilNaoExcluidos];
-
-    for (int i = 0; i < quantidadeDePerfis; i++) {
+    CriadorDeFuncaoDeRede criarFuncao
+) {
+    for (int i = 0; i < redeSocial->getQuantidadeDePerfis(); i++) {
         Perfil* perfil = redeSocial->getPerfis()[i];
 
-        if (dynamic_cast<PessoaVerificada*>(perfil))
-            (*opcoesUsuario)[i] = perfil->getNome() + " (Verificada)";
-        else
-            (*opcoesUsuario)[i] = perfil->getNome();
+        (*opcoesUsuario)[i] =
+            perfil->getNome() +
+            (dynamic_cast<PessoaVerificada*>(perfil) ? " (Verificada)" : "");
 
         (*funcoes)[i] = criarFuncao(perfil);
     }
@@ -92,15 +87,17 @@ bool mostrarOpcoesUsuario(
     string textoInicial,
     CriadorDeFuncaoDeRede criarFuncao
 ) {
-    string* opcoesUsuario;
-    FuncaoDeRede* funcoes;
+    int quantidadeDePerfis = redeSocial->getQuantidadeDePerfis();
+
+    string* opcoesUsuario = new string[quantidadeDePerfis];
+    FuncaoDeRede* funcoes = new FuncaoDeRede[quantidadeDePerfis];
 
     criarOpcoesUsuario(redeSocial, &opcoesUsuario, &funcoes, criarFuncao);
 
     bool opcaoEscolhida = imprimirOpcoes(redeSocial,
         textoInicial,
         "Digite o numero ou 0 para cancelar: ",
-        redeSocial->getQuantidadeDePerfis(),
+        quantidadeDePerfis,
         opcoesUsuario,
         funcoes);
 
