@@ -11,10 +11,15 @@
 using FuncaoDeRede = function<void(RedeSocial*)>;
 using CriadorDeFuncaoDeRede = function<FuncaoDeRede(Perfil*)>;
 
-bool imprimirOpcoes(string textoInicial, string textoFinal,
-                    int quantidadeDeOpcoes, string* opcoes,
-                    FuncaoDeRede* funcoes, bool temOpcaoZero,
-                    RedeSocial* redeSocial) {
+bool imprimirOpcoes(
+    string textoInicial,
+    string textoFinal,
+    int quantidadeDeOpcoes,
+    string* opcoes,
+    FuncaoDeRede* funcoes,
+    bool temOpcaoZero,
+    RedeSocial* redeSocial
+) {
     int escolha;
 
     cout << textoInicial << endl;
@@ -36,12 +41,22 @@ bool imprimirOpcoes(string textoInicial, string textoFinal,
     return true;
 }
 
-void imprimirOpcoesERepetir(string textoInicial, string textoFinal,
-                            int quantidadeDeOpcoes, string* opcoes,
-                            FuncaoDeRede* funcoes, bool temOpcaoZero,
-                            RedeSocial* redeSocial) {
-    while (imprimirOpcoes(textoInicial, textoFinal, quantidadeDeOpcoes, opcoes,
-                          funcoes, temOpcaoZero, redeSocial)) {
+void imprimirOpcoesERepetir(
+    string textoInicial,
+    string textoFinal,
+    int quantidadeDeOpcoes,
+    string* opcoes,
+    FuncaoDeRede* funcoes,
+    bool temOpcaoZero,
+    RedeSocial* redeSocial
+) {
+    while (imprimirOpcoes(textoInicial,
+        textoFinal,
+        quantidadeDeOpcoes,
+        opcoes,
+        funcoes,
+        temOpcaoZero,
+        redeSocial)) {
     }
 }
 
@@ -69,9 +84,10 @@ void cadastroPessoa(RedeSocial* redeSocial) {
     cout << endl;
 }
 
-void criarOpcoesUsuario(RedeSocial* redeSocial, string** opcoesUsuario,
-                        FuncaoDeRede** funcoes,
-                        CriadorDeFuncaoDeRede criarFuncao) {
+void criarOpcoesUsuario(RedeSocial* redeSocial,
+    string** opcoesUsuario,
+    FuncaoDeRede** funcoes,
+    CriadorDeFuncaoDeRede criarFuncao) {
     int quantidadeDePerfis = redeSocial->getQuantidadeDePerfis();
     int quantidadeDePerfilNaoExcluidos = quantidadeDePerfis;
 
@@ -90,17 +106,23 @@ void criarOpcoesUsuario(RedeSocial* redeSocial, string** opcoesUsuario,
     }
 }
 
-bool mostrarOpcoesUsuario(RedeSocial* redeSocial, string textoInicial,
-                          CriadorDeFuncaoDeRede criarFuncao) {
+bool mostrarOpcoesUsuario(
+    RedeSocial* redeSocial,
+    string textoInicial,
+    CriadorDeFuncaoDeRede criarFuncao
+) {
     string* opcoesUsuario;
     FuncaoDeRede* funcoes;
 
     criarOpcoesUsuario(redeSocial, &opcoesUsuario, &funcoes, criarFuncao);
 
-    bool opcaoEscolhida =
-        imprimirOpcoes(textoInicial, "Digite o numero ou 0 para cancelar: ",
-                       redeSocial->getQuantidadeDePerfis(), opcoesUsuario,
-                       funcoes, false, redeSocial);
+    bool opcaoEscolhida = imprimirOpcoes(textoInicial,
+        "Digite o numero ou 0 para cancelar: ",
+        redeSocial->getQuantidadeDePerfis(),
+        opcoesUsuario,
+        funcoes,
+        false,
+        redeSocial);
 
     delete[] opcoesUsuario;
     delete[] funcoes;
@@ -173,8 +195,10 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
     auto listaDeAdicionarContato = [perfil](RedeSocial* redeSocial) {
         bool foiPossivelAdicionar;
 
-        auto adicionarContato = [perfil, &foiPossivelAdicionar](Perfil* novoContato) -> FuncaoDeRede {
-            return [perfil, novoContato, &foiPossivelAdicionar](RedeSocial* redeSocial) {
+        auto adicionarContato = [perfil, &foiPossivelAdicionar](
+                                    Perfil* novoContato) -> FuncaoDeRede {
+            return [perfil, novoContato, &foiPossivelAdicionar](
+                       RedeSocial* redeSocial) {
                 foiPossivelAdicionar = perfil->adicionarContato(novoContato);
             };
         };
@@ -186,8 +210,8 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
             cout << "Contato nao adicionado" << endl << endl;
     };
 
-    return [perfil, fazerPostagem, verPostagens,
-            listaDeAdicionarContato](RedeSocial* redeSocial) {
+    return [perfil, fazerPostagem, verPostagens, listaDeAdicionarContato](
+               RedeSocial* redeSocial) {
         bool repetir;
 
         do {
@@ -205,13 +229,19 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
 
             cout << endl << "---" << endl;
 
-            repetir = imprimirOpcoes(
-                "Escolha uma opcao:", "", 4,
-                (string[]){"Fazer postagem", "Ver postagens dos contatos",
-                           "Adicionar contato", "Deslogar"},
-                (FuncaoDeRede[]){fazerPostagem, verPostagens,
-                                 listaDeAdicionarContato, cadastroPessoa},
-                true, redeSocial);
+            repetir = imprimirOpcoes("Escolha uma opcao:",
+                "",
+                4,
+                (string[]){ "Fazer postagem",
+                    "Ver postagens dos contatos",
+                    "Adicionar contato",
+                    "Deslogar" },
+                (FuncaoDeRede[]){ fazerPostagem,
+                    verPostagens,
+                    listaDeAdicionarContato,
+                    cadastroPessoa },
+                true,
+                redeSocial);
         } while (repetir);
     };
 }
@@ -221,11 +251,15 @@ void logar(RedeSocial* redeSocial) {
 }
 
 void interfaceGrafica(RedeSocial* redeSocial) {
-    imprimirOpcoesERepetir(
-        "Escolha uma opcao", "", 4,
-        (string[]){"Cadastrar Pessoa", "Cadastrar Pagina", "Logar", "Terminar"},
-        (FuncaoDeRede[]){cadastroPessoa, cadastroPagina, logar, cadastroPessoa},
-        true, redeSocial);
+    imprimirOpcoesERepetir("Escolha uma opcao",
+        "",
+        4,
+        (string[]){
+            "Cadastrar Pessoa", "Cadastrar Pagina", "Logar", "Terminar" },
+        (FuncaoDeRede[]){
+            cadastroPessoa, cadastroPagina, logar, cadastroPessoa },
+        true,
+        redeSocial);
 }
 
 int main() {
