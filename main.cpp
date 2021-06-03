@@ -11,6 +11,34 @@
 using FuncaoDeRede = function<void(RedeSocial*)>;
 using CriadorDeFuncaoDeRede = function<FuncaoDeRede(Perfil*)>;
 
+void printinl() {}
+
+template <typename T, typename... Args>
+void printinl(T t, Args... args) {
+    cout << t;
+    printinl(args...);
+}
+
+template <typename... Args>
+void print(Args... args) {
+    printinl(args..., '\n');
+}
+
+template <typename T = string, typename U = string, typename V = string>
+T input(U hint = "", V end = "") {
+    T t;
+    printinl(hint);
+    cin >> t;
+    printinl(end);
+    return t;
+}
+
+template <typename U = string, typename V = string>
+bool simounao(U text = "", V end = "") {
+    string escolha = input(text, end);
+    return escolha == "s" || escolha.empty();
+}
+
 bool imprimirOpcoes(
     RedeSocial* redeSocial,
     string textoInicial,
@@ -20,16 +48,12 @@ bool imprimirOpcoes(
     FuncaoDeRede* funcoes,
     bool temOpcaoZero = false
 ) {
-    int escolha;
+    print(textoInicial);
 
-    cout << textoInicial << endl;
     for (int i = 1; i <= quantidadeDeOpcoes; i++)
-        cout << i % (quantidadeDeOpcoes + 1 - temOpcaoZero) << ") "
-             << opcoes[i - 1] << endl;
+        print(i % (quantidadeDeOpcoes + 1 - temOpcaoZero), ") ", opcoes[i - 1]);
 
-    cout << textoFinal;
-    cin >> escolha;
-    cout << endl;
+    int escolha = input<int>(textoFinal, '\n');
 
     if (escolha <= 0 || escolha > quantidadeDeOpcoes - temOpcaoZero)
         return false;
@@ -41,28 +65,16 @@ bool imprimirOpcoes(
     return true;
 }
 
-bool simOuNao(string texto) {
-    string escolha;
-    cout << texto;
-    cin >> escolha;
-    return escolha == "s" || escolha.empty();
-}
-
 void cadastroPessoa(RedeSocial* redeSocial) {
-    string nome;
-    cout << "Informe os dados da pessoa" << endl << "Nome: ";
-    cin >> nome;
-    bool verificada = simOuNao("Verificada (s/n)? ");
+    string nome = input("Informe os dados da pessoa\nNome: ");
+    bool verificada = simounao("Verificada (s/n)? ");
     if (!verificada) {
         redeSocial->adicionar(new Perfil(nome));
-        cout << endl;
+        print();
         return;
     }
-    string email;
-    cout << "Email: ";
-    cin >> email;
+    string email = input("Email: ", '\n');
     redeSocial->adicionar(new PessoaVerificada(nome, email));
-    cout << endl;
 }
 
 void criarOpcoesUsuario(
@@ -108,9 +120,7 @@ bool mostrarOpcoesUsuario(
 }
 
 void cadastroPagina(RedeSocial* redeSocial) {
-    string nome;
-    cout << "Informe os dados da pagina" << endl << "Nome: ";
-    cin >> nome;
+    string nome = input("Informe os dados da pagina\nNome: ", '\n');
 
     auto criarFuncao = [&](Perfil* perfil) -> FuncaoDeRede {
         return [&, perfil](RedeSocial* redeSocial) {
@@ -118,9 +128,7 @@ void cadastroPagina(RedeSocial* redeSocial) {
                 redeSocial->adicionar(new Pagina(nome, pessoaVerificada));
 
             else
-                cout << "Somente pessoas verificadas podem ser proprietarias"
-                     << endl
-                     << endl;
+                print("Somente pessoas verificadas podem ser proprietarias\n");
         };
     };
 
@@ -129,42 +137,28 @@ void cadastroPagina(RedeSocial* redeSocial) {
 
 FuncaoDeRede opcoesLogadas(Perfil* perfil) {
     auto fazerPostagem = [perfil](RedeSocial* redeSocial) {
-        bool ehStory = simOuNao("Story (s/n): ");
-        int data, dataDeFim;
-        string texto;
-        cout << "Data: ";
-        cin >> data;
+        int dataDeFim;
+        bool ehStory = simounao("Story (s/n): ");
+        int data = input<int>("Data: ");
+        if (ehStory) dataDeFim = input<int>("Data de fim: ");
+        string texto = input("Texto: ", '\n');
 
-        if (ehStory) {
-            cout << "Data de fim: ";
-            cin >> dataDeFim;
-        }
-
-        cout << "Texto: ";
-        cin >> texto;
-
-        if (ehStory)
-            perfil->adicionarPostagem(
-                new Story(texto, data, dataDeFim, perfil));
-        else
-            perfil->adicionarPostagem(new Postagem(texto, data, perfil));
-
-        cout << endl;
+        perfil->adicionarPostagem(
+            ehStory ? new Story(texto, data, dataDeFim, perfil)
+                    : new Postagem(texto, data, perfil));
     };
 
     auto verPostagens = [perfil](RedeSocial* redeSocial) {
-        int data, quantidadeDePostagensDosContatos;
-        cout << "Data: ";
-        cin >> data;
+        int quantidadeDePostagensDosContatos, data = input<int>("Data: ");
         auto postagens = perfil->getPostagensDosContatos(
             data, quantidadeDePostagensDosContatos);
 
-        cout << "Postagens dos ultimos 3 dias:" << endl;
+        print("Postagens dos ultimos 3 dias:");
 
         for (int i = 0; i < quantidadeDePostagensDosContatos; i++)
             postagens[i]->imprimir();
 
-        cout << endl;
+        print();
     };
 
     auto listaDeAdicionarContato = [perfil](RedeSocial* redeSocial) {
@@ -181,25 +175,23 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
             mostrarOpcoesUsuario(redeSocial, "Perfil:", adicionarContato);
 
         if (!opcaoEscolhida || !foiPossivelAdicionar)
-            cout << "Contato nao adicionado" << endl << endl;
+            print("Contato nao adicionado");
     };
 
     return [=](RedeSocial* redeSocial) {
         bool repetir;
 
         do {
-            cout << perfil->getNome();
+            printinl(perfil->getNome());
 
             if (auto pessoaVerificada = dynamic_cast<PessoaVerificada*>(perfil))
-                cout << " - " << pessoaVerificada->getEmail();
+                print(" - ", pessoaVerificada->getEmail());
 
             else if (auto pagina = dynamic_cast<Pagina*>(perfil))
-                cout << endl
-                     << "Proprietario " << pagina->getProprietario()->getNome();
+                printinl(
+                    "\nProprietario ", pagina->getProprietario()->getNome());
 
-            cout << endl << "Contatos: " << perfil->getQuantidadeDeContatos();
-
-            cout << endl << "---" << endl;
+            print("\nContatos: ", perfil->getQuantidadeDeContatos(), "\n---");
 
             repetir = imprimirOpcoes(redeSocial,
                 "Escolha uma opcao:",
