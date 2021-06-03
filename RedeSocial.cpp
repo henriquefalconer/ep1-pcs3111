@@ -1,6 +1,5 @@
 #include "RedeSocial.h"
-
-#include <iostream>
+#include "iofuncs.h"
 
 #include "Pagina.h"
 #include "Perfil.h"
@@ -13,13 +12,12 @@ RedeSocial::RedeSocial(): quantidadeDePerfis(0) {
 }
 
 RedeSocial::~RedeSocial() {
-    cout << "Destrutor de RedeSocial: " << this->quantidadeDePerfis
-         << " perfis " << endl;
+    print("Destrutor de RedeSocial: ", quantidadeDePerfis, " perfis ");
 
     for (int i = 0; i < this->quantidadeDePerfis; i++) delete this->perfis[i];
     delete[] this->perfis;
 
-    cout << "RedeSocial deletada " << endl;
+    print("RedeSocial deletada ");
 }
 
 // Getters
@@ -54,24 +52,24 @@ void RedeSocial::imprimirEstatisticas() {
         else
             quantidadePerfis++;
     }
-    cout << "PessoaVerificada: " << quantidadePessoasVerificadas << endl;
-    cout << "PessoaNaoVerificada: " << quantidadePessoasNaoVerificadas << endl;
-    cout << "Pagina: " << quantidadePaginas << endl;
-    cout << "Perfil: " << quantidadePerfis << endl;
+    print("PessoaVerificada: ", quantidadePessoasVerificadas);
+    print("PessoaNaoVerificada: ", quantidadePessoasNaoVerificadas);
+    print("Pagina: ", quantidadePaginas);
+    print("Perfil: ", quantidadePerfis);
 }
 
 void RedeSocial::imprimir() {
-    cout << "==================================" << endl;
-    cout << "Rede Social: " << quantidadeDePerfis << " perfis" << endl;
-    cout << "==================================" << endl;
+    print("==================================");
+    print("Rede Social: ", quantidadeDePerfis, " perfis");
+    print("==================================");
     if (quantidadeDePerfis == 0) {
-        cout << "Sem perfis" << endl;
-        cout << "==================================" << endl;
+        print("Sem perfis");
+        print("==================================");
     } else {
         for (int i = 0; i < quantidadeDePerfis; i++) {
             perfis[i]->imprimir();
-            cout << "==================================" << endl;
+            print("==================================");
         }
     }
-    cout << endl;
+    print();
 }

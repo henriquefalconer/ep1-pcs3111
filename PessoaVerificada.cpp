@@ -1,6 +1,5 @@
 #include "PessoaVerificada.h"
-
-#include <iostream>
+#include "iofuncs.h"
 
 PessoaVerificada::PessoaVerificada(string nome, string email)
     : Perfil(nome), email(email) {}
@@ -17,6 +16,6 @@ string PessoaVerificada::getEmail() { return this->email; }
 
 // Methods
 void PessoaVerificada::imprimir() {
-    cout << getEmail() << endl;
+    print(getEmail());
     Perfil::imprimir();
 }

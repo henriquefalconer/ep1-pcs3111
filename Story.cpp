@@ -1,6 +1,5 @@
 #include "Story.h"
-
-#include <iostream>
+#include "iofuncs.h"
 
 Story::Story(string texto, int data, int dataDeFim, Perfil* autor)
     : Postagem(texto, data, autor), dataDeFim(dataDeFim) {}
@@ -12,7 +11,14 @@ int Story::getDataDeFim() { return this->dataDeFim; }
 
 // Methods
 void Story::imprimir() {
-    cout << "Texto: " << getTexto() << " - Data: " << getData()
-         << " - Data De Fim: " << getDataDeFim()
-         << " - Autor: " << getAutor()->getNome() << endl;
+    print(
+        "Texto: ", 
+        getTexto(), 
+        " - Data: ", 
+        getData(), 
+        " - Data De Fim: ", 
+        getDataDeFim(), 
+        " - Autor: ", 
+        getAutor()->getNome()
+    );
 }

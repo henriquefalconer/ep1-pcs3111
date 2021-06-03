@@ -1,11 +1,10 @@
 #include "Postagem.h"
-
-#include <iostream>
+#include "iofuncs.h"
 
 Postagem::Postagem(string texto, int data, Perfil* autor)
     : texto(texto), data(data), autor(autor) {}
 
-Postagem::~Postagem() { cout << "Destrutor de postagem: " << texto << endl; }
+Postagem::~Postagem() { print("Destrutor de postagem: ", texto); }
 
 // Getters
 string Postagem::getTexto() { return this->texto; }
@@ -16,6 +15,5 @@ Perfil* Postagem::getAutor() { return this->autor; }
 
 // Methods
 void Postagem::imprimir() {
-    cout << "Texto: " << getTexto() << " - Data: " << getData()
-         << " - Autor: " << getAutor()->getNome() << endl;
+    print("Texto: ", getTexto(), " - Data: ", getData(), " - Autor: ", getAutor()->getNome());
 }

@@ -1,6 +1,5 @@
 #include "Perfil.h"
-
-#include <iostream>
+#include "iofuncs.h"
 
 Perfil::Perfil(string nome)
     : nome(nome),
@@ -8,9 +7,7 @@ Perfil::Perfil(string nome)
       postagens(new Postagem*[MAXIMO_POSTAGENS]) {}
 
 Perfil::~Perfil() {
-    cout << "Destrutor de perfil: " << this->nome
-         << " - Quantidade de postagens feitas: " << this->quantidadeDePostagens
-         << endl;
+    print("Destrutor de perfil: ", nome, " - Quantidade de postagens feitas: ", quantidadeDePostagens);
 
     delete[] this->contatos;
 
@@ -19,7 +16,7 @@ Perfil::~Perfil() {
 
     delete[] this->postagens;
 
-    cout << "Perfil deletado" << endl;
+    print("Perfil deletado");
 }
 
 // Getters
@@ -70,20 +67,22 @@ bool Perfil::adicionarPostagem(Postagem* p) {
 }
 
 void Perfil::imprimir() {
-    cout << endl << "Nome: " << nome << endl;
-    cout << "Numero de postagens feitas: " << quantidadeDePostagens << endl;
+    print("\nNome: ", nome, "\nNumero de postagens feitas: ", quantidadeDePostagens);
     for (int i = 0; i < quantidadeDePostagens; i++)
-        cout << "Postagens na data: " << postagens[i]->getData()
-             << " - Texto: " << postagens[i]->getTexto() << endl;
+        print("Postagens na data: ", postagens[i]->getData(), " - Texto: ", postagens[i]->getTexto());
     if (quantidadeDeContatos == 0)
-        cout << "Sem contatos " << endl;
+        print("Sem contatos ");
     else {
         for (int i = 0; i < quantidadeDeContatos; i++) {
             for (int j = 0; j < contatos[i]->getQuantidadeDePostagens(); j++)
-                cout << "Postagens na data "
-                     << contatos[i]->getPostagens()[j]->getData()
-                     << " do contato " << contatos[i]->getNome() << " - Texto: "
-                     << contatos[i]->getPostagens()[j]->getTexto() << endl;
+                print(
+                    "Postagens na data ", 
+                    contatos[i]->getPostagens()[j]->getData(), 
+                    " do contato ", 
+                    contatos[i]->getNome(), 
+                    " - Texto: ", 
+                    contatos[i]->getPostagens()[j]->getTexto()
+                );
         }
     }
 }

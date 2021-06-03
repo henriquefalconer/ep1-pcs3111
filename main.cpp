@@ -1,4 +1,4 @@
-#include <iostream>
+#include "iofuncs.h"
 
 #include "Pagina.h"
 #include "Perfil.h"
@@ -10,34 +10,6 @@
 
 using FuncaoDeRede = function<void(RedeSocial*)>;
 using CriadorDeFuncaoDeRede = function<FuncaoDeRede(Perfil*)>;
-
-void printinl() {}
-
-template <typename T, typename... Args>
-void printinl(T t, Args... args) {
-    cout << t;
-    printinl(args...);
-}
-
-template <typename... Args>
-void print(Args... args) {
-    printinl(args..., '\n');
-}
-
-template <typename T = string, typename U = string, typename V = string>
-T input(U hint = "", V end = "") {
-    T t;
-    printinl(hint);
-    cin >> t;
-    printinl(end);
-    return t;
-}
-
-template <typename U = string, typename V = string>
-bool simounao(U text = "", V end = "") {
-    string escolha = input(text, end);
-    return escolha == "s" || escolha.empty();
-}
 
 bool imprimirOpcoes(
     RedeSocial* redeSocial,
