@@ -72,7 +72,7 @@ void criarOpcoesUsuario(
     CriadorDeFuncaoDeRede criarFuncao
 ) {
     for (int i = 0; i < redeSocial->getQuantidadeDePerfis(); i++) {
-        Perfil* perfil = redeSocial->getPerfis()[i];
+        auto perfil = redeSocial->getPerfis()[i];
 
         (*opcoesUsuario)[i] =
             perfil->getNome() +
@@ -89,8 +89,8 @@ bool mostrarOpcoesUsuario(
 ) {
     int quantidadeDePerfis = redeSocial->getQuantidadeDePerfis();
 
-    string* opcoesUsuario = new string[quantidadeDePerfis];
-    FuncaoDeRede* funcoes = new FuncaoDeRede[quantidadeDePerfis];
+    auto opcoesUsuario = new string[quantidadeDePerfis];
+    auto funcoes = new FuncaoDeRede[quantidadeDePerfis];
 
     criarOpcoesUsuario(redeSocial, &opcoesUsuario, &funcoes, criarFuncao);
 
@@ -114,7 +114,7 @@ void cadastroPagina(RedeSocial* redeSocial) {
 
     auto criarFuncao = [&](Perfil* perfil) -> FuncaoDeRede {
         return [&, perfil](RedeSocial* redeSocial) {
-            if (PessoaVerificada* pessoaVerificada = dynamic_cast<PessoaVerificada*>(perfil))
+            if (auto pessoaVerificada = dynamic_cast<PessoaVerificada*>(perfil))
                 redeSocial->adicionar(new Pagina(nome, pessoaVerificada));
 
             else
@@ -156,7 +156,7 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
         int data, quantidadeDePostagensDosContatos;
         cout << "Data: ";
         cin >> data;
-        Postagem** postagens = perfil->getPostagensDosContatos(
+        auto postagens = perfil->getPostagensDosContatos(
             data, quantidadeDePostagensDosContatos);
 
         cout << "Postagens dos ultimos 3 dias:" << endl;
@@ -190,11 +190,10 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
         do {
             cout << perfil->getNome();
 
-            if (PessoaVerificada* pessoaVerificada =
-                    dynamic_cast<PessoaVerificada*>(perfil))
+            if (auto pessoaVerificada = dynamic_cast<PessoaVerificada*>(perfil))
                 cout << " - " << pessoaVerificada->getEmail();
 
-            else if (Pagina* pagina = dynamic_cast<Pagina*>(perfil))
+            else if (auto pagina = dynamic_cast<Pagina*>(perfil))
                 cout << endl
                      << "Proprietario " << pagina->getProprietario()->getNome();
 
@@ -240,7 +239,7 @@ void interfaceGrafica(RedeSocial* redeSocial) {
 }
 
 int main() {
-    RedeSocial* redeSocial = new RedeSocial();
+    auto redeSocial = new RedeSocial();
 
     interfaceGrafica(redeSocial);
 
