@@ -115,8 +115,8 @@ void cadastroPagina(RedeSocial* redeSocial) {
     cout << "Informe os dados da pagina" << endl << "Nome: ";
     cin >> nome;
 
-    auto criarFuncao = [&nome](Perfil* perfil) -> FuncaoDeRede {
-        return [&nome, perfil](RedeSocial* redeSocial) {
+    auto criarFuncao = [&](Perfil* perfil) -> FuncaoDeRede {
+        return [&, perfil](RedeSocial* redeSocial) {
             if (PessoaVerificada* pessoaVerificada = dynamic_cast<PessoaVerificada*>(perfil))
                 redeSocial->adicionar(new Pagina(nome, pessoaVerificada));
 
@@ -173,9 +173,8 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
     auto listaDeAdicionarContato = [perfil](RedeSocial* redeSocial) {
         bool foiPossivelAdicionar;
 
-        auto adicionarContato = [perfil, &foiPossivelAdicionar](
-                                    Perfil* novoContato) -> FuncaoDeRede {
-            return [perfil, novoContato, &foiPossivelAdicionar](
+        auto adicionarContato = [&, perfil](Perfil* novoContato) -> FuncaoDeRede {
+            return [=, &foiPossivelAdicionar](
                        RedeSocial* redeSocial) {
                 foiPossivelAdicionar = perfil->adicionarContato(novoContato);
             };
@@ -188,8 +187,7 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
             cout << "Contato nao adicionado" << endl << endl;
     };
 
-    return [perfil, fazerPostagem, verPostagens, listaDeAdicionarContato](
-               RedeSocial* redeSocial) {
+    return [=](RedeSocial* redeSocial) {
         bool repetir;
 
         do {
