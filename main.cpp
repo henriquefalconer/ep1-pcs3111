@@ -130,6 +130,8 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
 
         for (int i = 0; i < quantidadeDePostagensDosContatos; i++)
             postagens[i]->imprimir();
+        
+        delete[] postagens;
 
         print();
     };
