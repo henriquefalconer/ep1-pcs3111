@@ -19,21 +19,22 @@ inline void print(Args... args) {
     printinl(args..., '\n');
 }
 
-// Lê a string digitada na entrada padrão, imprimindo opcionalmente um texto antes e depois do que foi digitado.
-// Obs.: Para retornar uma variável cujo tipo que não é string, utilizar o argumento de template: int i = input<int>();
+// Lê o texto digitado na entrada padrão, retornando-o por padrão em forma de string.
+// Obs.: Para retornar uma variável cujo tipo que não é string, especificar no argumento de template: int i = input<int>();
+// Opcionalmente, também imprime um texto antes da leitura, assim como outro texto após a leitura.
 template <typename T = string, typename U = string, typename V = string>
-inline T input(U antes = "", V depois = "") {
+inline T input(U textbefore = "", V textafter = "") {
     T t;
-    printinl(antes);
+    printinl(textbefore);
     cin >> t;
-    printinl(depois);
+    printinl(textafter);
     return t;
 }
 
-// Lê a string digitada na entrada padrão, retornando true se for igual a "s" ou "", e false caso contrário.
-// Opcionalmente, também imprime um texto antes e depois do que foi digitado.
+// Lê o texto digitado na entrada padrão, retornando true se for igual a "s" ou "", e false caso contrário.
+// Opcionalmente, também imprime um texto antes da leitura, assim como outro texto após a leitura.
 template <typename U = string, typename V = string>
-inline bool simounao(U antes = "", V depois = "") {
-    string escolha = input(antes, depois);
+inline bool simounao(U textbefore = "", V textafter = "") {
+    string escolha = input(textbefore, textafter);
     return escolha == "s" || escolha.empty();
 }
