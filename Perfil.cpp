@@ -37,6 +37,8 @@ Postagem** Perfil::getPostagensDosContatos(int data, int& quantidade) {
     Postagem** postagensDosContatos =
         new Postagem*[this->quantidadeDeContatos * MAXIMO_POSTAGENS];
 
+    quantidade = 0;
+
     for (int i = 0; i < quantidadeDeContatos; i++) {
         for (int j = 0; j < contatos[i]->getQuantidadeDePostagens(); j++) {
             Postagem* postagem = contatos[i]->getPostagens()[j];
