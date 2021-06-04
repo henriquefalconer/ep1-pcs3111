@@ -50,18 +50,18 @@ void cadastroPessoa(RedeSocial* redeSocial) {
 
 void criarOpcoesUsuario(
     RedeSocial* redeSocial,
-    string** opcoesUsuario,
-    FuncaoDeRede** funcoes,
+    string* opcoesUsuario,
+    FuncaoDeRede* funcoes,
     CriadorDeFuncaoDeRede criarFuncao
 ) {
     for (int i = 0; i < redeSocial->getQuantidadeDePerfis(); i++) {
         auto perfil = redeSocial->getPerfis()[i];
 
-        (*opcoesUsuario)[i] =
+        opcoesUsuario[i] =
             perfil->getNome() +
             (dynamic_cast<PessoaVerificada*>(perfil) ? " (Verificada)" : "");
 
-        (*funcoes)[i] = criarFuncao(perfil);
+        funcoes[i] = criarFuncao(perfil);
     }
 }
 
@@ -75,7 +75,7 @@ bool mostrarOpcoesUsuario(
     auto opcoesUsuario = new string[quantidadeDePerfis];
     auto funcoes = new FuncaoDeRede[quantidadeDePerfis];
 
-    criarOpcoesUsuario(redeSocial, &opcoesUsuario, &funcoes, criarFuncao);
+    criarOpcoesUsuario(redeSocial, opcoesUsuario, funcoes, criarFuncao);
 
     bool opcaoEscolhida = imprimirOpcoes(redeSocial,
         textoInicial,
