@@ -9,36 +9,35 @@ Perfil::Perfil(string nome)
 Perfil::~Perfil() {
     print("Destrutor de perfil: ", nome, " - Quantidade de postagens feitas: ", quantidadeDePostagens);
 
-    delete[] this->contatos;
+    delete[] contatos;
 
-    for (int i = 0; i < this->quantidadeDePostagens; i++)
-        delete this->postagens[i];
+    for (int i = 0; i < quantidadeDePostagens; i++)
+        delete postagens[i];
 
-    delete[] this->postagens;
+    delete[] postagens;
 
     print("Perfil deletado");
 }
 
 // Getters
-string Perfil::getNome() { return this->nome; }
+string Perfil::getNome() { return nome; }
 
-int Perfil::getQuantidadeDeContatos() { return this->quantidadeDeContatos; }
+int Perfil::getQuantidadeDeContatos() { return quantidadeDeContatos; }
 
-int Perfil::getQuantidadeDePostagens() { return this->quantidadeDePostagens; }
+int Perfil::getQuantidadeDePostagens() { return quantidadeDePostagens; }
 
-Perfil** Perfil::getContatos() { return this->contatos; }
+Perfil** Perfil::getContatos() { return contatos; }
 
-Postagem** Perfil::getPostagens() { return this->postagens; }
+Postagem** Perfil::getPostagens() { return postagens; }
 
 Postagem** Perfil::getPostagensDosContatos(int data, int& quantidade) {
-    Postagem** postagensDosContatos =
-        new Postagem*[this->quantidadeDeContatos * MAXIMO_POSTAGENS];
+    auto postagensDosContatos = new Postagem*[quantidadeDeContatos * MAXIMO_POSTAGENS];
 
     quantidade = 0;
 
     for (int i = 0; i < quantidadeDeContatos; i++) {
         for (int j = 0; j < contatos[i]->getQuantidadeDePostagens(); j++) {
-            Postagem* postagem = contatos[i]->getPostagens()[j];
+            auto postagem = contatos[i]->getPostagens()[j];
 
             if (data >= postagem->getData() && data - postagem->getData() <= 3)
                 postagensDosContatos[quantidade++] = postagem;
@@ -50,12 +49,12 @@ Postagem** Perfil::getPostagensDosContatos(int data, int& quantidade) {
 
 // Methods
 bool Perfil::adicionarContato(Perfil* perfil) {
-    if (this->quantidadeDeContatos == MAXIMO_CONTATOS) return false;
+    if (quantidadeDeContatos == MAXIMO_CONTATOS) return false;
 
-    for (int i = 0; i < this->quantidadeDeContatos; i++)
-        if (this->contatos[i] == perfil) return false;
+    for (int i = 0; i < quantidadeDeContatos; i++)
+        if (contatos[i] == perfil) return false;
 
-    this->contatos[this->quantidadeDeContatos++] = perfil;
+    contatos[quantidadeDeContatos++] = perfil;
 
     perfil->adicionarContato(this);
 
@@ -63,8 +62,8 @@ bool Perfil::adicionarContato(Perfil* perfil) {
 }
 
 bool Perfil::adicionarPostagem(Postagem* p) {
-    if (this->quantidadeDePostagens == MAXIMO_POSTAGENS) return false;
-    this->postagens[this->quantidadeDePostagens++] = p;
+    if (quantidadeDePostagens == MAXIMO_POSTAGENS) return false;
+    postagens[quantidadeDePostagens++] = p;
     return true;
 }
 

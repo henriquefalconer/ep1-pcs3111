@@ -7,7 +7,7 @@ Story::Story(string texto, int data, int dataDeFim, Perfil* autor)
 Story::~Story() {}
 
 // Getters
-int Story::getDataDeFim() { return this->dataDeFim; }
+int Story::getDataDeFim() { return dataDeFim; }
 
 // Methods
 void Story::imprimir() {

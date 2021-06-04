@@ -14,23 +14,23 @@ RedeSocial::RedeSocial(): quantidadeDePerfis(0) {
 RedeSocial::~RedeSocial() {
     print("Destrutor de RedeSocial: ", quantidadeDePerfis, " perfis ");
 
-    for (int i = 0; i < this->quantidadeDePerfis; i++) delete this->perfis[i];
-    delete[] this->perfis;
+    for (int i = 0; i < quantidadeDePerfis; i++) delete perfis[i];
+    delete[] perfis;
 
     print("RedeSocial deletada ");
 }
 
 // Getters
-Perfil** RedeSocial::getPerfis() { return this->perfis; }
+Perfil** RedeSocial::getPerfis() { return perfis; }
 
-const int RedeSocial::getCapacidade() { return this->capacidade; }
+const int RedeSocial::getCapacidade() { return capacidade; }
 
-int RedeSocial::getQuantidadeDePerfis() { return this->quantidadeDePerfis; }
+int RedeSocial::getQuantidadeDePerfis() { return quantidadeDePerfis; }
 
 // Methods
 bool RedeSocial::adicionar(Perfil* perfil) {
-    if (this->quantidadeDePerfis == this->capacidade) return false;
-    this->perfis[this->quantidadeDePerfis++] = perfil;
+    if (quantidadeDePerfis == capacidade) return false;
+    perfis[quantidadeDePerfis++] = perfil;
     return true;
 }
 

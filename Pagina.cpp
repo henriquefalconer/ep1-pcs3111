@@ -10,7 +10,7 @@ Pagina::Pagina(string nome, PessoaVerificada* proprietario)
 Pagina::~Pagina() {}
 
 // Getters
-PessoaVerificada* Pagina::getProprietario() { return this->proprietario; }
+PessoaVerificada* Pagina::getProprietario() { return proprietario; }
 
 // Methods
 void Pagina::imprimir() {

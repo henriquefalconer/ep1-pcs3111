@@ -12,7 +12,7 @@ PessoaVerificada::~PessoaVerificada() {
 }
 
 // Getters
-string PessoaVerificada::getEmail() { return this->email; }
+string PessoaVerificada::getEmail() { return email; }
 
 // Methods
 void PessoaVerificada::imprimir() {

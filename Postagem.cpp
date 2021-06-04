@@ -7,11 +7,11 @@ Postagem::Postagem(string texto, int data, Perfil* autor)
 Postagem::~Postagem() { print("Destrutor de postagem: ", texto); }
 
 // Getters
-string Postagem::getTexto() { return this->texto; }
+string Postagem::getTexto() { return texto; }
 
-int Postagem::getData() { return this->data; }
+int Postagem::getData() { return data; }
 
-Perfil* Postagem::getAutor() { return this->autor; }
+Perfil* Postagem::getAutor() { return autor; }
 
 // Methods
 void Postagem::imprimir() {
