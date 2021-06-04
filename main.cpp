@@ -45,8 +45,7 @@ void cadastroPessoa(RedeSocial* redeSocial) {
         print();
         return;
     }
-    string email = input("Email: ", '\n');
-    redeSocial->adicionar(new PessoaVerificada(nome, email));
+    redeSocial->adicionar(new PessoaVerificada(nome, input("Email: ", '\n')));
 }
 
 void criarOpcoesUsuario(
@@ -121,9 +120,11 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
     };
 
     auto verPostagens = [perfil](RedeSocial* redeSocial) {
-        int quantidadeDePostagensDosContatos, data = input<int>("Data: ");
+        int quantidadeDePostagensDosContatos;
         auto postagens = perfil->getPostagensDosContatos(
-            data, quantidadeDePostagensDosContatos);
+            input<int>("Data: "), 
+            quantidadeDePostagensDosContatos
+        );
 
         print("Postagens dos ultimos 3 dias:");
 
