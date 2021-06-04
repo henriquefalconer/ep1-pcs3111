@@ -157,7 +157,7 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
             printinl(perfil->getNome());
 
             if (auto pessoaVerificada = dynamic_cast<PessoaVerificada*>(perfil))
-                print(" - ", pessoaVerificada->getEmail());
+                printinl(" - ", pessoaVerificada->getEmail());
 
             else if (auto pagina = dynamic_cast<Pagina*>(perfil))
                 printinl(
