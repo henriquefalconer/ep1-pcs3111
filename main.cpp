@@ -1,3 +1,4 @@
+#include <functional>
 #include "iofuncs.h"
 
 #include "Pagina.h"
@@ -167,22 +168,28 @@ FuncaoDeRede opcoesLogadas(Perfil* perfil) {
 
             print("\nContatos: ", perfil->getQuantidadeDeContatos(), "\n---");
 
-            repetir = imprimirOpcoes(redeSocial,
+            string opcoes[] = { 
+                "Fazer postagem",
+                "Ver postagens dos contatos",
+                "Adicionar contato",
+                "Deslogar" 
+            };
+
+            FuncaoDeRede funcoes[] = {
+                fazerPostagem, 
+                verPostagens, 
+                listaDeAdicionarContato 
+            };
+
+            repetir = imprimirOpcoes(
+                redeSocial,
                 "Escolha uma opcao:",
                 "",
                 4,
-                (string[]){ 
-                    "Fazer postagem",
-                    "Ver postagens dos contatos",
-                    "Adicionar contato",
-                    "Deslogar" 
-                },
-                (FuncaoDeRede[]){
-                    fazerPostagem, 
-                    verPostagens, 
-                    listaDeAdicionarContato 
-                },
-                true);
+                opcoes,
+                funcoes,
+                true
+            );
         } while (repetir);
     };
 }
@@ -192,18 +199,25 @@ void logar(RedeSocial* redeSocial) {
 }
 
 void interfaceGrafica(RedeSocial* redeSocial) {
-    while (imprimirOpcoes(redeSocial,
-        "Escolha uma opcao",
-        "",
-        4,
-        (string[]){
-            "Cadastrar Pessoa", 
-            "Cadastrar Pagina", 
-            "Logar", 
-            "Terminar" 
-        },
-        (FuncaoDeRede[]){ cadastroPessoa, cadastroPagina, logar },
-        true)
+    string opcoes[] = {
+        "Cadastrar Pessoa", 
+        "Cadastrar Pagina", 
+        "Logar", 
+        "Terminar" 
+    };
+
+    FuncaoDeRede funcoes[] = { cadastroPessoa, cadastroPagina, logar };
+
+    while (
+        imprimirOpcoes(
+            redeSocial,
+            "Escolha uma opcao",
+            "",
+            4,
+            opcoes,
+            funcoes,
+            true
+        )
     ) {}
 }
 
